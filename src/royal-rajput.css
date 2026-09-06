@@ -1,0 +1,44 @@
+.royal-rajput {
+  --parchment: #fdf2f2;
+  --deep: #f5e4e4;
+  --maroon: #800020;
+  --maroon-deep: #4a000f;
+  --green: #2c3e2d;
+  --gold: #d4af37;
+  --ink: #1a0f0a;
+  
+  background: var(--parchment);
+  min-height: 100svh;
+  overflow-x: clip;
+}
+
+body:has(.royal-rajput) {
+  background: #fdf2f2;
+}
+
+.royal-rajput .hero { background: #5c0817; }
+.royal-rajput .hero-scrim { background: linear-gradient(180deg, rgba(253, 242, 242, 0), rgba(253, 242, 242, 0.2) 50%, rgba(253, 242, 242, 0.6)); }
+.royal-rajput .section-frame { background: #fdf2f2; }
+.royal-rajput .countdown { background: #fdf2f2; }
+.royal-rajput .gallery { background: #fdf2f2; }
+.royal-rajput .video-section { background: #fdf2f2; }
+.royal-rajput footer { background: #f5e4e4; }
+.royal-rajput .entry { background: #5c0817; }
+.royal-rajput .entry-veil { background: #5c0817; }
+.royal-rajput .entry-bloom { background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.92) 0, rgba(212, 175, 55, 0.5) 32%, rgba(212, 175, 55, 0) 62%); }
+.royal-rajput .event-icon { background: #fdf2f2; }
+.royal-rajput .music { background: #fdf2f2; }
+
+/* Override hardcoded kalyana-mandapam CSS assets */
+.royal-rajput .kolam { background-image: url('/assets/royal-rajput/kolam-tile.png'); background-size: cover; }
+.royal-rajput .gallery-toranam { background-image: url('/assets/royal-rajput/temple-scenery.png'); }
+
+.royal-rajput .corner.tl { background-image: url('/assets/royal-rajput/border/corner-tl.png'); }
+.royal-rajput .corner.tr { background-image: url('/assets/royal-rajput/border/corner-tr.png'); }
+.royal-rajput .corner.bl { background-image: url('/assets/royal-rajput/border/corner-bl.png'); }
+.royal-rajput .corner.br { background-image: url('/assets/royal-rajput/border/corner-br.png'); }
+
+.royal-rajput .rail.top { background-image: url('/assets/royal-rajput/border/rail-top.png'); }
+.royal-rajput .rail.bottom { background-image: url('/assets/royal-rajput/border/rail-bottom.png'); }
+.royal-rajput .rail.left { background-image: url('/assets/royal-rajput/border/rail-left.png'); }
+.royal-rajput .rail.right { background-image: url('/assets/royal-rajput/border/rail-right.png'); }

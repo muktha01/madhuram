@@ -1,0 +1,656 @@
+.emerald-temple {
+  --parchment: #fdfbf7;
+  --parchment-tint: #f5f2eb;
+  --emerald: #0a4a33;
+  --emerald-deep: #063020;
+  --sepia: #8b5a2b;
+  --gold: #c5a059;
+  --gold-light: #e6c885;
+  --coral: #e8607a;
+  
+  background: #ffffff;
+  min-height: 100svh;
+  overflow-x: clip;
+}
+
+body:has(.emerald-temple) {
+  background: #ffffff;
+}
+
+h2, h3, h4 {
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+}
+
+/* Buttons */
+.emerald-temple .emerald-btn {
+  background: var(--emerald-deep);
+  color: var(--parchment);
+  border: 1px solid var(--gold);
+  padding: 16px 36px;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  letter-spacing: 2px;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  text-transform: uppercase;
+}
+.emerald-temple .emerald-btn.sm {
+  padding: 12px 24px;
+  font-size: 12px;
+}
+.emerald-temple .emerald-btn:hover {
+  background: var(--emerald);
+}
+
+.emerald-outline-btn {
+  background: transparent;
+  color: var(--emerald-deep);
+  border: 1px solid var(--emerald-deep);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-family: 'Cinzel', serif;
+  cursor: pointer;
+}
+
+/* Entry Section */
+.emerald-entry {
+  background: var(--emerald-deep);
+  position: relative;
+}
+.silk-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+  mix-blend-mode: multiply;
+}
+.emerald-entry .entry-veil {
+  background: rgba(6, 48, 32, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.grand-entry-card {
+  background: var(--parchment-tint);
+  border: 4px solid var(--gold);
+  border-radius: 8px;
+  padding: 60px 40px;
+  max-width: 500px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+}
+.grand-entry-card h3 {
+  font-size: 12px;
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+}
+.grand-entry-card h1 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 72px;
+  line-height: 1;
+  margin: 20px 0;
+}
+.grand-entry-card .amp {
+  font-family: 'Cinzel', serif;
+  font-size: 32px;
+  color: var(--gold);
+}
+
+/* Navigation */
+.emerald-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background: var(--parchment-tint);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.nav-logo {
+  font-family: 'Great Vibes', cursive;
+  font-size: 28px;
+  color: var(--emerald-deep);
+}
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+.nav-links a {
+  text-decoration: none;
+  color: var(--emerald-deep);
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.nav-links a:hover {
+  color: var(--gold);
+}
+.nav-btn {
+  padding: 10px 20px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Hero Section */
+.grand-hero {
+  background: #e9bc8a;
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 60px;
+  /* fallbacks until useParallax publishes real values */
+  --py: 0px;
+  --pr: 0;
+}
+.grand-hero .hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: bottom;
+}
+.emerald-scrim {
+  background: linear-gradient(180deg, rgba(6, 48, 32, 0), rgba(245, 242, 235, 0.9) 95%, var(--parchment-tint));
+}
+/* Far layer: faded temple skyline along the bottom. Slowest, so it sits
+   furthest back. Multiply blends the gold into the tan like a printed wash. */
+.hero-skyline {
+  position: absolute;
+  left: 50%;
+  bottom: -4%;
+  width: 106%;
+  min-width: 1100px;
+  height: auto;
+  z-index: 1;
+  opacity: 0.6;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  user-select: none;
+  transform: translate3d(-50%, calc(var(--py) * 0.28), 0);
+  will-change: transform;
+}
+
+/* Mid layer: text drifts a little slower than the page, and fades as it goes. */
+.grand-hero-content {
+  text-align: center;
+  position: relative;
+  z-index: 20;
+  margin-top: -50px;
+  transform: translate3d(0, calc(var(--py) * 0.20), 0);
+  opacity: calc(1 - var(--pr) * 1.25);
+  will-change: transform, opacity;
+}
+.hero-ganesha {
+  margin-bottom: 10px;
+}
+.hero-ganesha img {
+  width: 100px;
+  height: auto;
+  opacity: 0.95;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.15));
+}
+.grand-hero-content h3 {
+  font-size: 14px;
+  letter-spacing: 4px;
+  margin-bottom: 20px;
+}
+.grand-hero-content h1 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 110px;
+  color: var(--emerald-deep) !important;
+  text-shadow: none;
+  margin: 10px 0;
+}
+.grand-hero-content .subtitle {
+  color: var(--emerald-deep);
+  font-family: 'Cinzel', serif;
+  letter-spacing: 3px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+.hero-divider {
+  width: 60px;
+  height: 2px;
+  background: var(--gold);
+  margin: 25px auto;
+}
+.hero-meta {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 40px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--emerald-deep);
+  letter-spacing: 2px;
+}
+.hero-meta span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.hero-cta {
+  background: var(--emerald-deep);
+  color: #fff;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Countdown Section */
+.emerald-countdown {
+  position: relative;
+  background: #faf6ee url('/assets/emerald-temple/texture-bg.jpg') center/cover no-repeat;
+  padding: 100px 20px 70px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+/* Dissolves the hard seam under the hero by carrying its tan a little further down. */
+.emerald-countdown::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 150px;
+  background: linear-gradient(180deg, #e9bc8a 0%, rgba(233, 188, 138, 0) 100%);
+  pointer-events: none;
+}
+.countdown-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 30px;
+}
+.countdown-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(2px);
+  padding: 20px;
+  border-radius: 12px;
+  min-width: 100px;
+  box-shadow: 0 6px 20px rgba(107, 78, 34, 0.08);
+  border: 1px solid rgba(197, 160, 89, 0.35);
+}
+.count-number {
+  font-family: 'Cinzel', serif;
+  font-size: 36px;
+  color: var(--emerald-deep);
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.count-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--gold);
+}
+
+/* Front layer: pillars/garlands run slightly FASTER than the page, so they
+   sweep past the temple behind them. Taller than the hero to cover the shift. */
+.emerald-side-border {
+  position: absolute;
+  top: -8%;
+  height: 116%;
+  width: auto;
+  object-fit: contain;
+  z-index: 10;
+  pointer-events: none;
+  filter: drop-shadow(0 0 20px rgba(0,0,0,0.2));
+  transform: translate3d(0, calc(var(--py) * -0.10), 0);
+  will-change: transform;
+}
+.emerald-side-border.left {
+  left: 0;
+  object-position: left top;
+}
+.emerald-side-border.right {
+  right: 0;
+  object-position: right top;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grand-hero-content,
+  .emerald-side-border {
+    transform: none;
+    opacity: 1;
+  }
+  .hero-skyline {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* Couple Section */
+.emerald-couple {
+  background: var(--parchment-tint);
+  padding: 80px 20px 40px;
+  text-align: center;
+}
+.couple-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.couple-profile {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.couple-frame {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  margin-bottom: 30px;
+}
+.couple-photo-wrapper {
+  position: absolute;
+  inset: 15px; /* Leave room for wreath */
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid var(--gold);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+.couple-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.couple-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--emerald-deep);
+  margin-bottom: 8px;
+}
+.couple-parents {
+  font-size: 12px;
+  color: #777;
+  letter-spacing: 2px;
+  line-height: 1.8;
+  text-transform: uppercase;
+}
+.couple-parents br {
+  margin-bottom: 4px;
+}
+.couple-amp {
+  font-family: 'Great Vibes', cursive;
+  font-size: 60px;
+  color: var(--gold);
+  transform: translateY(-50px);
+}
+.lotus-divider {
+  margin-top: 60px;
+}
+
+/* Gallery Section */
+.emerald-gallery {
+  background-color: var(--emerald-deep);
+  background-image: url('/assets/emerald-temple/kolam-tile.png');
+  background-repeat: repeat;
+  background-size: 800px;
+  background-blend-mode: overlay;
+  padding: 80px 20px;
+  position: relative;
+  overflow: hidden;
+}
+.gallery-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+.gallery-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+.gallery-header h2 {
+  font-size: 28px;
+  margin-top: 10px;
+  font-style: italic;
+  font-family: 'Cinzel', serif;
+}
+.gallery-floating {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+  font-family: 'Great Vibes', cursive;
+  font-size: 24px;
+  text-align: center;
+  opacity: 0.8;
+  line-height: 1.4;
+}
+.gallery-floating p::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--gold);
+  margin: 20px auto 0;
+  opacity: 0.5;
+}
+.floating-lotus {
+  width: 50px;
+  height: auto;
+  margin-top: 25px;
+  opacity: 0.7;
+}
+.gallery-floating.left {
+  left: -80px;
+}
+.gallery-floating.right {
+  right: -80px;
+}
+@media (max-width: 1300px) {
+  .gallery-floating { display: none; }
+}
+.gallery-content-split {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  margin: 0 auto;
+  max-width: 1000px;
+}
+.gallery-left-main {
+  flex: 1;
+  max-width: 700px;
+  position: relative;
+}
+.gallery-left-main .main-photo {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  display: block;
+}
+.frame-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  object-fit: fill;
+}
+.gallery-right-thumbs {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.thumb-item {
+  position: relative;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+  cursor: pointer;
+}
+.thumb-item:hover {
+  opacity: 1;
+}
+.thumb-item .thumb-photo {
+  width: 150px;
+  height: 100px;
+  object-fit: cover;
+  display: block;
+}
+.thumb-frame-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  object-fit: fill;
+}
+.gallery-counter {
+  letter-spacing: 3px;
+}
+.gallery-arrow {
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.3s;
+}
+
+/* Events */
+.grand-events {
+  padding: 80px 20px;
+  text-align: center;
+}
+.grand-events h4 {
+  color: var(--gold);
+  letter-spacing: 3px;
+}
+.grand-events h2 {
+  color: var(--emerald-deep);
+  font-size: 28px;
+  margin-bottom: 60px;
+}
+.grand-events-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.grand-event-card {
+  flex: 1;
+  background: var(--parchment);
+  border: 1px solid var(--gold-light);
+  border-radius: 120px 120px 0 0;
+  padding: 60px 30px 40px;
+  text-align: center;
+}
+.grand-event-card.highlight {
+  background: var(--emerald-deep);
+  color: var(--parchment);
+  transform: scale(1.05);
+  box-shadow: 0 20px 40px rgba(6, 48, 32, 0.2);
+}
+.grand-event-card h3 {
+  font-size: 28px;
+  margin-bottom: 16px;
+  color: inherit;
+}
+.grand-event-card:not(.highlight) h3 {
+  color: var(--emerald-deep);
+}
+.event-date {
+  font-size: 14px;
+  letter-spacing: 1px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.event-loc {
+  font-style: italic;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* Travel */
+.emerald-travel {
+  padding: 100px 20px;
+  text-align: center;
+}
+.travel-content {
+  max-width: 1000px;
+  margin: 40px auto 0;
+}
+.travel-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+.bus-img {
+  width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+}
+
+/* RSVP */
+.grand-rsvp {
+  background: var(--emerald-deep);
+  color: var(--parchment);
+  padding: 100px 20px;
+}
+.rsvp-flex {
+  display: flex;
+  max-width: 1000px;
+  margin: 0 auto;
+  align-items: center;
+  gap: 60px;
+}
+.rsvp-left {
+  flex: 1;
+}
+.rsvp-left h4 {
+  color: var(--gold);
+  letter-spacing: 4px;
+}
+.rsvp-left h2 {
+  font-size: 64px;
+  margin: 10px 0 20px;
+}
+.rsvp-left p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--parchment-tint);
+  margin-bottom: 30px;
+}
+
+/* Footer */
+.grand-footer {
+  background: var(--parchment-tint);
+  width: 100%;
+  position: relative;
+  display: flex;
+  padding: 0; /* Remove padding so image touches edges */
+}
+.footer-bg {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}

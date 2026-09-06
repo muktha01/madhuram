@@ -45,9 +45,9 @@ function EmeraldHero() {
   const heroRef = useParallax<HTMLElement>();
   return (
     <section className="hero emerald-hero grand-hero" ref={heroRef}>
-      <img src={`${ASSET}/overlaytemple.png`} alt="" className="hero-skyline" />
-      <img src={`${ASSET}/leftborder.PNG`} alt="" className="emerald-side-border left" />
-      <img src={`${ASSET}/rightborder.PNG`} alt="" className="emerald-side-border right" />
+      <img src={`${ASSET}/overlaytemple.png`} alt="" className="hero-skyline" loading="eager" decoding="async" fetchPriority="high" />
+      <img src={`${ASSET}/leftborder.PNG`} alt="" className="emerald-side-border left" loading="eager" decoding="async" fetchPriority="high" />
+      <img src={`${ASSET}/rightborder.PNG`} alt="" className="emerald-side-border right" loading="eager" decoding="async" fetchPriority="high" />
       <div className="hero-content grand-hero-content">
         <div className="hero-ganesha">
           <img src={`${ASSET}/ganesh.png`} alt="Ganesha" />
@@ -126,7 +126,7 @@ function EmeraldCountdown() {
 
   return (
     <section className="section emerald-countdown">
-      <img src={`${ASSET}/templesavethedate.png`} alt="" className="cd-skyline" />
+      <img src={`${ASSET}/templesavethedate.png`} alt="" className="cd-skyline" loading="lazy" decoding="async" />
       <span className="cd-leaf tl" aria-hidden="true" />
       <span className="cd-leaf tr" aria-hidden="true" />
       <span className="cd-leaf br" aria-hidden="true" />
@@ -251,7 +251,7 @@ const EventIconPlaceholder = ({ type }: { type: string }) => {
   return (
     <div className="event-icon-circle">
       {imgSrc ? (
-        <img src={`${ASSET}/${imgSrc}`} alt={type} className="event-popout-icon" />
+        <img src={`${ASSET}/${imgSrc}`} alt={type} className="event-popout-icon" loading="lazy" decoding="async" />
       ) : (
         <span style={{ fontFamily: 'Cinzel, serif', fontSize: '32px', color: '#c5a059', fontWeight: 600 }}>
           {type.charAt(0).toUpperCase()}
@@ -602,14 +602,14 @@ function EmeraldFooter() {
         {/* Transparent PNG on the emerald band: the browser composites it over
             --emerald-deep, which is the same blend that removed the olive cast
             offline. No frame or mask needed. */}
-        <img src={`${ASSET}/godfooter.png`} alt="" className="ft-plate" />
+        <img src={`${ASSET}/godfooter.png`} alt="" className="ft-plate" loading="lazy" decoding="async" />
         <h2 className="ft-script">Shubham Bhavatu</h2>
         <p className="ft-names">Rashmika &amp; Vijay</p>
         <p className="ft-thanks">Thank you for being part of our story</p>
       </div>
 
       {/* Pond band closes the section, in flow directly under the sign-off */}
-      <img src={`${ASSET}/footer.png`} alt="" className="ft-pond" />
+      <img src={`${ASSET}/footer.png`} alt="" className="ft-pond" loading="lazy" decoding="async" />
     </footer>
   );
 }
@@ -674,7 +674,7 @@ export default function EmeraldLayout() {
           onClick={toggleAudio}
           aria-label={isPlaying ? "Pause Music" : "Play Music"}
         >
-          <img src={`${ASSET}/imgi_25_km-audio-on.png`} alt="" />
+          <img src={`${ASSET}/imgi_25_km-audio-on.png`} alt="" loading="lazy" decoding="async" />
           {!isPlaying && <div className="mute-slash" />}
         </button>
       )}

@@ -318,7 +318,9 @@
 /* Features ---------------------------------------------------------------- */
 .ms-features {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  /* Explicit count, not auto-fit: six items divide evenly by three, whereas
+     auto-fit fitted four across and left two empty bordered cells. */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
   background: var(--ms-line);
   border: 1px solid var(--ms-line);
@@ -403,8 +405,10 @@
 .ms-reassure { background: var(--ms-accent-wash); }
 .ms-reassure-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-  gap: var(--ms-l);
+  /* Four items pair evenly in two columns. auto-fit fitted three across and
+     left the fourth stranded beside a column of empty space. */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--ms-l) var(--ms-xl);
 }
 .ms-reassure-item { display: flex; gap: var(--ms-s); }
 .ms-reassure-item > svg {
@@ -711,4 +715,16 @@
 
 @media (prefers-reduced-motion: reduce) {
   .ms-phone { animation: none; }
+}
+
+/* Grid step-downs ---------------------------------------------------------
+   Counts are explicit at every width so no row is ever left with a gap. */
+@media (max-width: 900px) {
+  .ms-features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 720px) {
+  .ms-reassure-grid { grid-template-columns: 1fr; gap: var(--ms-l); }
+}
+@media (max-width: 600px) {
+  .ms-features { grid-template-columns: 1fr; }
 }

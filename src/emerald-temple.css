@@ -400,8 +400,8 @@ h2, h3, h4 {
   animation: cd-drift 9s ease-in-out infinite;
 }
 /* Only the right side needs loose petals: the left corner asset bakes its own in. */
-.cd-petal.b { top: 10%; right: 14%; width: 30px; height: 30px; background-image: url('/assets/emerald-temple/petal-pink.png'); animation-delay: -3s; }
-.cd-petal.c { top: 18%; right: 9%;  width: 24px; height: 24px; background-image: url('/assets/emerald-temple/petal-orange.png'); animation-delay: -6s; }
+.cd-petal.b { top: 10%; right: 14%; width: 30px; height: 30px; background-image: url('/assets/emerald-temple/petal-pink.svg'); animation-delay: -3s; }
+.cd-petal.c { top: 18%; right: 9%;  width: 24px; height: 24px; background-image: url('/assets/emerald-temple/petal-orange.svg'); animation-delay: -6s; }
 
 @keyframes cd-drift {
   0%, 100% { transform: translate(0, 0) rotate(0deg); }
@@ -435,7 +435,7 @@ h2, h3, h4 {
   flex: none;
   width: 30px;
   height: 22px;
-  background: url('/assets/emerald-temple/lotus-icon.png') center/contain no-repeat;
+  background: url('/assets/emerald-temple/lotus-icon.svg') center/contain no-repeat;
 }
 
 /* One eyebrow definition. Previously three: 15/600/5px, 14/600/6px and
@@ -464,7 +464,7 @@ h2, h3, h4 {
 .cd-eyebrow i {
   width: 11px;
   height: 11px;
-  background: url('/assets/emerald-temple/floret.png') center/contain no-repeat;
+  background: url('/assets/emerald-temple/floret.svg') center/contain no-repeat;
 }
 
 /* prefixed: outranks .section-inner>h2 from index.css */
@@ -518,13 +518,13 @@ h2, h3, h4 {
   top: 13%;
   width: 15px;
   height: 15px;
-  background-image: url('/assets/emerald-temple/floret.png');
+  background-image: url('/assets/emerald-temple/floret.svg');
 }
 .cd-card-lotus {
   bottom: 11%;
   width: 26px;
   height: 18px;
-  background-image: url('/assets/emerald-temple/lotus-icon.png');
+  background-image: url('/assets/emerald-temple/lotus-icon.svg');
 }
 
 .cd-value {
@@ -603,7 +603,7 @@ h2, h3, h4 {
   width: 40px;
   height: 28px;
   transform: translateX(-50%);
-  background: url('/assets/emerald-temple/lotus-icon.png') center/contain no-repeat;
+  background: url('/assets/emerald-temple/lotus-icon.svg') center/contain no-repeat;
 }
 
 @media (max-width: 640px) {
@@ -787,7 +787,7 @@ h2, h3, h4 {
   flex: none;
   width: 12px;
   height: 12px;
-  background: url('/assets/emerald-temple/floret.png') center/contain no-repeat;
+  background: url('/assets/emerald-temple/floret.svg') center/contain no-repeat;
 }
 
 /* --- Portraits --- */
@@ -880,7 +880,7 @@ h2, h3, h4 {
 .couple-amp .amp-floret {
   width: 13px;
   height: 13px;
-  background: url('/assets/emerald-temple/floret.png') center/contain no-repeat;
+  background: url('/assets/emerald-temple/floret.svg') center/contain no-repeat;
 }
 .amp-badge {
   position: relative;
@@ -961,7 +961,7 @@ h2, h3, h4 {
   width: 56px;
   height: 38px;
   transform: translateX(-50%);
-  background: url('/assets/emerald-temple/lotus-icon.png') center/contain no-repeat;
+  background: url('/assets/emerald-temple/lotus-icon.svg') center/contain no-repeat;
 }
 
 @media (max-width: 720px) {

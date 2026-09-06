@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useRef, useState } from 'react';
 import { themes } from '../theme/config';
 import { useParallax } from '../useParallax';
@@ -180,8 +182,8 @@ function EmeraldGallery() {
     <section className="section emerald-gallery">
       <div className="section-inner gallery-container" data-reveal>
         <div className="gallery-header">
-           <h4 style={{ color: 'var(--gold)' }}>OUR BEGINNING</h4>
-           <h2 style={{ color: '#fff' }}>"Every beautiful story starts with a simple hello."</h2>
+           <h4>Our Beginning</h4>
+           <h2>Every beautiful story starts with a simple hello</h2>
         </div>
 
         <div className="gallery-floating left">

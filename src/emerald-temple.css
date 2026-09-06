@@ -7,7 +7,46 @@
   --gold: #c5a059;
   --gold-light: #e6c885;
   --coral: #e8607a;
-  
+
+  /* ---- Type scale -------------------------------------------------------
+     Sizes fluid so they hold their proportion from 375 to 1920. Tracking is
+     in `em`, not px: at a fixed 5px, wide tracking that reads as engraved at
+     15px reads as broken-apart at 11px, because it never scaled with the
+     type. In em it is always the same optical ratio. */
+  --fs-display: clamp(56px, 9vw, 116px);
+  --fs-title: clamp(38px, 5.6vw, 72px);
+  --fs-lede: clamp(16px, 1.5vw, 21px);
+  --fs-eyebrow: clamp(11px, 1vw, 13px);
+  --fs-label: clamp(10px, 0.9vw, 12px);
+  --fs-body: clamp(13px, 1.05vw, 15px);
+
+  --ls-eyebrow: 0.4em;
+  --ls-label: 0.2em;
+  --ls-name: 0.16em;
+
+  /* ---- Spacing scale: spacious, for a ceremonial read ---- */
+  --space-xs: 12px;
+  --space-s: 20px;
+  --space-m: 32px;
+  --space-l: 52px;
+  --space-xl: 84px;
+  --space-2xl: clamp(80px, 10vw, 150px);
+
+  /* ---- Colour roles ----
+     Named by job, not by hue, so a section can swap ground without every
+     child needing a new colour. */
+  --ink-strong: #063020;
+  --ink: #0a3d29;
+  --ink-soft: #6d5730;
+  --ink-inverse: #fdfbf7;
+  --ink-inverse-soft: rgba(245, 242, 235, 0.72);
+  --accent: #c5a059;
+  --accent-soft: rgba(197, 160, 89, 0.5);
+
+  /* ---- One transition spec for every section divider ---- */
+  --rule-h: 126px;
+  --rule-w: 2.25px;
+
   background: #ffffff;
   min-height: 100svh;
   overflow-x: clip;
@@ -399,17 +438,28 @@ h2, h3, h4 {
   background: url('/assets/emerald-temple/lotus-icon.png') center/contain no-repeat;
 }
 
+/* One eyebrow definition. Previously three: 15/600/5px, 14/600/6px and
+   12/500/5px, for the same role in three sections. */
+.cd-eyebrow,
+.cp-eyebrow,
+.ft-eyebrow,
+.gallery-header h4 {
+  font-family: 'Cinzel', serif;
+  font-size: var(--fs-eyebrow);
+  font-weight: 600;
+  letter-spacing: var(--ls-eyebrow);
+  /* cancels the trailing space tracking adds, so the line optically centres */
+  text-indent: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--ink-strong);
+}
 .cd-eyebrow {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  margin: 16px 0 4px;
-  font-family: 'Cinzel', serif;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 5px;
-  color: var(--emerald-deep);
+  gap: var(--space-s);
+  margin: var(--space-s) 0 var(--space-xs);
+  text-indent: 0; /* flex row: tracking is absorbed by the gap */
 }
 .cd-eyebrow i {
   width: 11px;
@@ -420,7 +470,7 @@ h2, h3, h4 {
 /* prefixed: outranks .section-inner>h2 from index.css */
 .emerald-temple .cd-title {
   font-family: 'Great Vibes', cursive;
-  font-size: clamp(44px, 7vw, 78px);
+  font-size: var(--fs-title);
   font-weight: 400;
   line-height: 1.15;
   color: var(--emerald-deep);
@@ -524,7 +574,7 @@ h2, h3, h4 {
   left: 0;
   right: 0;
   bottom: 0;
-  height: 120px;
+  height: var(--rule-h);
   z-index: 4;
   pointer-events: none;
 }
@@ -539,7 +589,7 @@ h2, h3, h4 {
 .cd-wave-line {
   fill: none;
   stroke: var(--gold);
-  stroke-width: 2;
+  stroke-width: var(--rule-w);
   vector-effect: non-scaling-stroke;
 }
 .cd-wave-line.thin {
@@ -704,21 +754,12 @@ h2, h3, h4 {
   width: min(calc(100% - 32px), 940px);
 }
 
-.cp-eyebrow {
-  margin: 16px 0 2px;
-  font-family: 'Cinzel', serif;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 6px;
-  text-indent: 6px;
-  text-transform: uppercase;
-  color: var(--emerald-deep);
-}
+.cp-eyebrow { margin: var(--space-s) 0 var(--space-xs); }
 /* prefixed: outranks .section-inner>h2 from index.css */
 .emerald-temple .cp-title {
   margin: 2px 0 14px;
   font-family: 'Great Vibes', cursive;
-  font-size: clamp(38px, 5.6vw, 64px);
+  font-size: var(--fs-title);
   font-weight: 400;
   line-height: 1.2;
   /* Green, matching every other section title. Gold on cream measured 2.9:1. */
@@ -896,7 +937,7 @@ h2, h3, h4 {
   left: 0;
   right: 0;
   bottom: 0;
-  height: 132px;
+  height: var(--rule-h);
   z-index: 4;
   pointer-events: none;
 }
@@ -906,7 +947,7 @@ h2, h3, h4 {
 .cp-wave-line {
   fill: none;
   stroke: var(--gold);
-  stroke-width: 2.5;
+  stroke-width: var(--rule-w);
   vector-effect: non-scaling-stroke;
 }
 .cp-wave-line.thin {
@@ -997,11 +1038,17 @@ h2, h3, h4 {
   text-align: center;
   margin-bottom: 50px;
 }
-.gallery-header h2 {
-  font-size: 28px;
-  margin-top: 10px;
-  font-style: italic;
-  font-family: 'Cinzel', serif;
+.gallery-header h4 { color: var(--accent); }
+.emerald-gallery .gallery-header h2 {
+  /* was an inline style plus Cinzel italic at a one-off 28px: the only
+     section title not set in the display face */
+  font-family: 'Great Vibes', cursive;
+  font-size: var(--fs-title);
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.15;
+  margin-top: var(--space-xs);
+  color: var(--ink-inverse);
 }
 .gallery-floating {
   position: absolute;
@@ -1161,7 +1208,7 @@ h2, h3, h4 {
   left: 0;
   right: 0;
   top: 0;
-  height: 120px;
+  height: var(--rule-h);
   z-index: 4;
   pointer-events: none;
 }
@@ -1170,7 +1217,7 @@ h2, h3, h4 {
 .jn-cap-line {
   fill: none;
   stroke: var(--gold);
-  stroke-width: 2;
+  stroke-width: var(--rule-w);
   vector-effect: non-scaling-stroke;
 }
 .jn-cap-line.thin {
@@ -1218,8 +1265,7 @@ h2, h3, h4 {
 
 .journey-title {
   font-family: 'Great Vibes', cursive;
-  /* was a hard 64px, which overflowed narrow screens */
-  font-size: clamp(36px, 7vw, 64px);
+  font-size: var(--fs-title);
   color: #0a3d29;
   text-align: center;
   margin-bottom: 10px;
@@ -1534,7 +1580,7 @@ h2, h3, h4 {
   top: 0;
   left: 0;
   right: 0;
-  height: 120px;
+  height: var(--rule-h);
   z-index: 2;
   pointer-events: none;
 }
@@ -1544,7 +1590,7 @@ h2, h3, h4 {
 .ft-cap-line {
   fill: none;
   stroke: var(--gold);
-  stroke-width: 2;
+  stroke-width: var(--rule-w);
   vector-effect: non-scaling-stroke;
 }
 .ft-cap-line.thin {
@@ -1558,15 +1604,10 @@ h2, h3, h4 {
   width: min(calc(100% - 32px), 860px);
   margin: 0 auto;
 }
+/* Footer sits on emerald, so the eyebrow takes the inverse colour role */
 .ft-eyebrow {
-  margin: 0 0 24px;
-  font-family: 'Cinzel', serif;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 5px;
-  text-indent: 5px;
-  text-transform: uppercase;
-  color: var(--gold);
+  margin: 0 0 var(--space-m);
+  color: var(--accent);
 }
 .ft-plate {
   display: block;
@@ -1624,7 +1665,7 @@ h2, h3, h4 {
   left: 0;
   right: 0;
   bottom: 0;
-  height: 132px;
+  height: var(--rule-h);
   z-index: 4;
   pointer-events: none;
 }
@@ -1633,7 +1674,7 @@ h2, h3, h4 {
 .jn-wave-line {
   fill: none;
   stroke: var(--gold);
-  stroke-width: 2.5;
+  stroke-width: var(--rule-w);
   vector-effect: non-scaling-stroke;
 }
 .jn-wave-line.thin {

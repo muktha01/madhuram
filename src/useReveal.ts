@@ -1,4 +1,9 @@
-import { useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
+
+/* useLayoutEffect has no server equivalent and React warns when it runs
+   during SSR. Same behaviour in the browser, silent on the server. */
+const useIsomorphicLayoutEffect =
+  typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 /**
  * Rise-and-fade entrance for anything marked [data-reveal].
@@ -13,7 +18,7 @@ import { useLayoutEffect } from 'react';
 export function useReveal() {
   /* Layout effect, not effect: the hidden state is added before the browser
      paints, so there is no flash of laid-out content being hidden again. */
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const items = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal], [data-reveal-self]"));
     if (items.length === 0) return;
 

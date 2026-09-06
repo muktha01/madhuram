@@ -1,11 +1,27 @@
+'use client';
+
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, MapPin, Music2, Play, X } from 'lucide-react';
 
 import { themes, ThemeId } from '../theme/config';
 
-const urlParams = new URLSearchParams(window.location.search);
-const themeId = (urlParams.get('theme') as ThemeId) || 'kalyana-mandapam';
-const currentTheme = themes[themeId] || themes['kalyana-mandapam'];
+/* Resolves its own theme from the URL.
+   Safe at module scope because this file is only ever evaluated in the
+   browser: the invitation route mounts it with `ssr: false`, so there is no
+   server instance whose module state could leak between requests.
+   The ?theme= fallback keeps links shared before the route change working. */
+function resolveThemeId(): ThemeId {
+  const fallback: ThemeId = 'kalyana-mandapam';
+  if (typeof window === 'undefined') return fallback;
+  const fromPath = window.location.pathname.split('/').filter(Boolean).pop();
+  if (fromPath && fromPath in themes) return fromPath as ThemeId;
+  const fromQuery = new URLSearchParams(window.location.search).get('theme');
+  if (fromQuery && fromQuery in themes) return fromQuery as ThemeId;
+  return fallback;
+}
+
+const themeId = resolveThemeId();
+const currentTheme = themes[themeId];
 const ASSET = currentTheme.assetPath;
 const PHOTO_BASE = 'https://p7fosjg9fjbplnvq.public.blob.vercel-storage.com/synced-media';
 

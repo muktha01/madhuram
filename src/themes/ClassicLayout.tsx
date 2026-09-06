@@ -121,7 +121,10 @@ function Rsvp() {
 
 function VideoSection() {
   const [playing, setPlaying] = useState(false);
-  return <section className="video-section"><div className="video-wall"><img src={`${ASSET}/video-wall.jpg`} alt="" /><button className="video-opening" onClick={() => setPlaying(true)} aria-label="Play wedding video"><Play size={30} fill="currentColor" /></button></div>{playing && <div className="video-modal" onClick={() => setPlaying(false)}><button onClick={() => setPlaying(false)} aria-label="Close video"><X /></button><div className="video-modal-card"><img src={galleryImages[0]} alt="Wedding memories" /><div><Play size={28} fill="currentColor" /><p>A Special Glimpse</p></div></div></div>}</section>;
+  /* Nothing to render if this theme ships no wall art. royal-rajput has no
+     video-wall.jpg, so this section used to show a broken image there. */
+  if (!currentTheme.videoWall) return null;
+  return <section className="video-section"><div className="video-wall"><img src={`${ASSET}/${currentTheme.videoWall}`} alt="" /><button className="video-opening" onClick={() => setPlaying(true)} aria-label="Play wedding video"><Play size={30} fill="currentColor" /></button></div>{playing && <div className="video-modal" onClick={() => setPlaying(false)}><button onClick={() => setPlaying(false)} aria-label="Close video"><X /></button><div className="video-modal-card"><img src={galleryImages[0]} alt="Wedding memories" /><div><Play size={28} fill="currentColor" /><p>A Special Glimpse</p></div></div></div>}</section>;
 }
 
 function Footer() { return <footer><img src={`${ASSET}/footer-card.jpg`} alt="" /><div className="footer-greeting"><p>We await your gracious presence</p><h2>and your blessings</h2><span>శుభమస్తు</span></div><a href="https://myshaadhilink.in" target="_blank" rel="noreferrer">This invitation was crafted on <b>MyShaadhi Link</b><small>Need one for your wedding? Click here</small></a></footer>; }

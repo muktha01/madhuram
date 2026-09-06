@@ -181,6 +181,29 @@ h2, h3, h4 {
   will-change: transform;
 }
 
+/* The hero clips its skyline at the section edge, which left the temples cut
+   by a hard horizontal line where the countdown begins. This veils the lower
+   skyline into flat tan so the two sections meet on the same solid colour.
+   Sits above the skyline (1) but below the side borders (10) and content (20),
+   so the pillars and text stay crisp while only the distant temples haze out. */
+.grand-hero::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 280px;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(233, 188, 138, 0) 0%,
+    rgba(233, 188, 138, 0.45) 40%,
+    rgba(233, 188, 138, 0.85) 72%,
+    #e9bc8a 94%
+  );
+}
+
 /* Mid layer: text drifts a little slower than the page, and fades as it goes. */
 .grand-hero-content {
   text-align: center;
@@ -251,55 +274,297 @@ h2, h3, h4 {
   text-transform: uppercase;
 }
 
-/* Countdown Section */
+/* ===================== Countdown Section ===================== *
+ * Continues the hero's tan with no seam, then breaks into the cream
+ * couple section via the gold wave at the bottom.
+ * Decorative art is applied as background-image on empty spans, so a
+ * missing asset renders as nothing rather than a broken-image icon.
+ * ------------------------------------------------------------- */
 .emerald-countdown {
   position: relative;
-  background: #faf6ee url('/assets/emerald-temple/texture-bg.jpg') center/cover no-repeat;
-  padding: 100px 20px 70px;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
+  overflow: hidden;
+  border-bottom: none;
+  padding: 80px 20px 190px;
+  /* The glow is centred low and kept well inside the section: anchored higher
+     it lightened the very top edge, which read as a step against the hero's
+     flat tan. The top edge must stay exactly #e9bc8a for the join to vanish. */
+  background:
+    radial-gradient(100% 58% at 50% 68%, rgba(255, 246, 232, 0.42), rgba(255, 246, 232, 0) 70%),
+    #e9bc8a;
 }
-/* Dissolves the hard seam under the hero by carrying its tan a little further down. */
-.emerald-countdown::before {
-  content: '';
+
+/* Countdown's own skyline: temples flanking a reflecting pool (2172x724, 3:1).
+   Constrained by HEIGHT, not width: sized by width it grew to ~1000px tall on a
+   wide screen and rode up behind the tagline. object-fit crops the empty sky at
+   the top instead. Multiply lets the bright pool wash out into the tan. */
+.cd-skyline {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 150px;
-  background: linear-gradient(180deg, #e9bc8a 0%, rgba(233, 188, 138, 0) 100%);
+  left: 50%;
+  bottom: 52px;
+  width: 106%;
+  min-width: 1150px;
+  height: auto;
+  z-index: 0;
+  opacity: 0.75;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  user-select: none;
+  transform: translateX(-50%);
+}
+
+/* Corner foliage. Deliberately asymmetric: no mirrored pair. */
+.cd-leaf {
+  position: absolute;
+  z-index: 3;
+  background-repeat: no-repeat;
+  background-size: contain;
   pointer-events: none;
 }
+.cd-leaf.tl {
+  top: -28px;
+  left: -36px;
+  width: clamp(190px, 24vw, 380px);
+  aspect-ratio: 1330 / 1183;
+  background-image: url('/assets/emerald-temple/leftleavesflower.png');
+  background-position: left top;
+}
+/* Portrait spray, so it is held narrower than the landscape left corner.
+   Sits at the very bottom: the wave (z-index 4) crops its bleed edge, which
+   is why there is no hard cut-off floating in the tan. */
+/* Same art as the top-left, mirrored. background-position stays `left top`
+   because scaleX flips the box, so the anchored corner flips with it. */
+.cd-leaf.tr {
+  top: -28px;
+  right: -36px;
+  width: clamp(190px, 24vw, 380px);
+  aspect-ratio: 1330 / 1183;
+  background-image: url('/assets/emerald-temple/leftleavesflower.png');
+  background-position: left top;
+  transform: scaleX(-1);
+}
+.cd-leaf.br {
+  right: -30px;
+  bottom: -10px;
+  width: clamp(165px, 21vw, 300px);
+  aspect-ratio: 1170 / 1344;
+  background-image: url('/assets/emerald-temple/rightleaveimage.png');
+  background-position: right bottom;
+}
+
+/* Drifting petals */
+.cd-petal {
+  position: absolute;
+  z-index: 2;
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+  animation: cd-drift 9s ease-in-out infinite;
+}
+/* Only the right side needs loose petals: the left corner asset bakes its own in. */
+.cd-petal.b { top: 10%; right: 14%; width: 30px; height: 30px; background-image: url('/assets/emerald-temple/petal-pink.png'); animation-delay: -3s; }
+.cd-petal.c { top: 18%; right: 9%;  width: 24px; height: 24px; background-image: url('/assets/emerald-temple/petal-orange.png'); animation-delay: -6s; }
+
+@keyframes cd-drift {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50%      { transform: translate(10px, 16px) rotate(14deg); }
+}
+
+.cd-inner {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+}
+
+/* Gold hairline rule with a lotus at its centre */
+.cd-rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  width: min(330px, 72%);
+  margin: 0 auto;
+}
+.cd-rule::before,
+.cd-rule::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+}
+.cd-rule::before { background: linear-gradient(90deg, transparent, var(--gold)); }
+.cd-rule::after  { background: linear-gradient(90deg, var(--gold), transparent); }
+.cd-rule i {
+  flex: none;
+  width: 30px;
+  height: 22px;
+  background: url('/assets/emerald-temple/lotus-icon.png') center/contain no-repeat;
+}
+
+.cd-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 16px 0 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 5px;
+  color: var(--emerald-deep);
+}
+.cd-eyebrow i {
+  width: 11px;
+  height: 11px;
+  background: url('/assets/emerald-temple/floret.png') center/contain no-repeat;
+}
+
+/* prefixed: outranks .section-inner>h2 from index.css */
+.emerald-temple .cd-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(44px, 7vw, 78px);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--emerald-deep);
+  margin: 4px 0 18px;
+}
+
+/* --- Arch cards --- */
 .countdown-grid {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 30px;
-  margin-top: 30px;
+  gap: 22px;
+  margin: 44px 0 38px;
 }
-.countdown-item {
+.cd-card {
+  position: relative;
+  width: 152px;
+  aspect-ratio: 5 / 6;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(2px);
-  padding: 20px;
-  border-radius: 12px;
-  min-width: 100px;
-  box-shadow: 0 6px 20px rgba(107, 78, 34, 0.08);
-  border: 1px solid rgba(197, 160, 89, 0.35);
+  justify-content: center;
 }
-.count-number {
+.cd-card-arch {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 10px 20px rgba(120, 86, 40, 0.18));
+}
+.cd-arch-fill  { fill: #fdf8ef; }
+.cd-arch-outer { fill: none; stroke: var(--gold); stroke-width: 2.4; }
+.cd-arch-inner { fill: none; stroke: rgba(197, 160, 89, 0.5); stroke-width: 1.1; }
+
+.cd-card-floret,
+.cd-card-lotus {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+.cd-card-floret {
+  top: 13%;
+  width: 15px;
+  height: 15px;
+  background-image: url('/assets/emerald-temple/floret.png');
+}
+.cd-card-lotus {
+  bottom: 11%;
+  width: 26px;
+  height: 18px;
+  background-image: url('/assets/emerald-temple/lotus-icon.png');
+}
+
+.cd-value {
+  position: relative;
+  z-index: 1;
   font-family: 'Cinzel', serif;
-  font-size: 36px;
-  color: var(--emerald-deep);
-  font-weight: 700;
+  /* 600 rather than 700: the heavier cut reads blocky at this size */
+  font-weight: 600;
+  font-size: 44px;
   line-height: 1;
-  margin-bottom: 8px;
+  letter-spacing: 1px;
+  text-indent: 1px; /* offsets trailing letter-spacing so digits sit optically centred */
+  color: #0a3d29;
+  /* tabular figures keep the card from twitching as the seconds tick */
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: 'tnum' 1, 'lnum' 1;
 }
-.count-label {
-  font-size: 12px;
+.cd-label {
+  position: relative;
+  z-index: 1;
+  margin-top: 12px;
+  font-family: 'Cinzel', serif;
+  /* light weight + open tracking is what makes a small cap label feel
+     engraved rather than bold. Colour stays dark enough for AA (4.9:1). */
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: 2.6px;
+  text-indent: 2.6px;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  color: var(--gold);
+  color: #8a6733;
+}
+
+.cd-tagline {
+  max-width: 22ch;
+  margin: 0 auto;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  letter-spacing: 3px;
+  line-height: 1.9;
+  text-transform: uppercase;
+  color: var(--emerald);
+}
+
+/* --- Wave transition into the couple section --- */
+.cd-wave {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 120px;
+  z-index: 4;
+  pointer-events: none;
+}
+.cd-wave svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+/* Matches the couple section's base colour exactly, so the band below the
+   curve and the section that follows are one continuous field. */
+.cd-wave-fill { fill: #f7f1e5; }
+.cd-wave-line {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+.cd-wave-line.thin {
+  stroke: rgba(197, 160, 89, 0.55);
+  stroke-width: 1;
+}
+.cd-wave-lotus {
+  position: absolute;
+  left: 50%;
+  bottom: 72px;
+  width: 40px;
+  height: 28px;
+  transform: translateX(-50%);
+  background: url('/assets/emerald-temple/lotus-icon.png') center/contain no-repeat;
+}
+
+@media (max-width: 640px) {
+  .emerald-countdown { padding: 60px 16px 150px; }
+  .countdown-grid { gap: 14px; }
+  .cd-card { width: 132px; }
+  .cd-value { font-size: 34px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cd-petal { animation: none; }
 }
 
 /* Front layer: pillars/garlands run slightly FASTER than the page, so they
@@ -325,6 +590,18 @@ h2, h3, h4 {
   object-position: right top;
 }
 
+/* On narrow screens, the vertical proportions mean a 116% height would force the 
+   width to be so large it covers the center text. Instead, we let them scale 
+   proportionately to a safe width and hang from the top corners. */
+@media (max-width: 768px) {
+  .emerald-side-border {
+    height: auto;
+    width: 40vw;
+    top: 0;
+    transform: none; /* Keep them anchored to the top to avoid parallax gaps */
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .grand-hero-content,
   .emerald-side-border {
@@ -336,70 +613,368 @@ h2, h3, h4 {
   }
 }
 
-/* Couple Section */
-.emerald-couple {
-  background: var(--parchment-tint);
-  padding: 80px 20px 40px;
-  text-align: center;
+/* Adjust temple skyline and fade on mobile so it's clearly visible */
+@media (max-width: 768px) {
+  .grand-hero::after {
+    height: 120px; /* Reduces the height of the fade that was obscuring the temple */
+  }
+  .hero-skyline {
+    min-width: 900px;
+    bottom: 2%; /* Lift the temple up slightly */
+    opacity: 0.85; /* Make it more prominent */
+  }
+  .grand-hero-content {
+    margin-top: 90px; /* Push the text down to clear the hanging side borders */
+  }
 }
-.couple-grid {
+
+/* ===================== Couple Section ===================== *
+ * Cream damask field, portraits set in ogee niches, and a wave that
+ * carries the page down into the emerald gallery.
+ * ---------------------------------------------------------- */
+.emerald-couple {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  /* Slides up under the countdown's wave, which is opaque cream at z-index 4
+     and paints over this section's first 45px. The cream band below the curve
+     is 50px at its shallowest, so nothing pokes out above the arch. Reclaims
+     dead space without altering the countdown at all. */
+  margin-top: -45px;
+  padding: 40px 20px 80px;
+  /* Flat base only. It matches .cd-wave-fill exactly, so the cream running out
+     from under the countdown's wave and this section are one continuous field. */
+  background: #f7f1e5;
+}
+
+/* The damask lives on its own layer so it can fade in. Painted straight onto
+   the section it began at full strength on row one, and that pattern edge read
+   as a hard line under the wave. Tiled at a fixed size rather than `cover`:
+   stretched across a wide viewport the motif ballooned into wallpaper. */
+
+.emerald-couple::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: url('/assets/emerald-temple/texture-bg.jpg') repeat;
+  background-size: 380px;
+  /* Short ramp: the first 45px is hidden under the wave anyway, so the texture
+     is already established by the time the section becomes visible. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 85px);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 85px);
+}
+
+/* Four corners from two assets: the right-hand pair are the same art
+   mirrored. Acceptable here because the layout is formally symmetrical. */
+.cp-leaf {
+  position: absolute;
+  z-index: 5;
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+}
+/* top:0 rather than a negative offset: the wave covers this section's first
+   45px, so the art's own bleed edge is hidden and the leaves read as emerging
+   from beneath the arch. */
+.cp-leaf.tl,
+.cp-leaf.tr {
+  top: 0;
+  width: clamp(160px, 20vw, 300px);
+  aspect-ratio: 1330 / 1183;
+  background-image: url('/assets/emerald-temple/leftleavesflower.png');
+}
+.cp-leaf.tl { left: -34px; }
+.cp-leaf.tr { right: -34px; transform: scaleX(-1); }
+
+.cp-leaf.bl,
+.cp-leaf.br {
+  bottom: -10px;
+  width: clamp(150px, 19vw, 275px);
+  aspect-ratio: 1170 / 1344;
+  background-image: url('/assets/emerald-temple/rightleaveimage.png');
+}
+.cp-leaf.br { right: -28px; }
+.cp-leaf.bl { left: -28px; transform: scaleX(-1); }
+
+.cp-inner {
+  position: relative;
+  z-index: 5;
+  width: min(calc(100% - 32px), 940px);
+}
+
+.cp-eyebrow {
+  margin: 16px 0 2px;
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 6px;
+  text-indent: 6px;
+  text-transform: uppercase;
+  color: var(--emerald-deep);
+}
+/* prefixed: outranks .section-inner>h2 from index.css */
+.emerald-temple .cp-title {
+  margin: 2px 0 14px;
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(38px, 5.6vw, 64px);
+  font-weight: 400;
+  line-height: 1.2;
+  /* Green, matching every other section title. Gold on cream measured 2.9:1. */
+  color: var(--emerald-deep);
+}
+
+/* Slim rule with a floret at centre, for use under the title */
+.cp-rule {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 40px;
-  max-width: 1000px;
+  gap: 12px;
+  width: min(300px, 66%);
   margin: 0 auto;
 }
-.couple-profile {
+.cp-rule::before,
+.cp-rule::after {
+  content: '';
   flex: 1;
+  height: 1px;
+}
+.cp-rule::before { background: linear-gradient(90deg, transparent, var(--gold)); }
+.cp-rule::after  { background: linear-gradient(90deg, var(--gold), transparent); }
+.cp-rule i {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  background: url('/assets/emerald-temple/floret.png') center/contain no-repeat;
+}
+
+/* --- Portraits --- */
+.couple-grid {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: clamp(16px, 3vw, 40px);
+  margin-top: 44px;
+}
+.couple-profile {
+  flex: 0 1 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.couple-frame {
+.couple-niche {
   position: relative;
-  width: 250px;
-  height: 250px;
-  margin-bottom: 30px;
+  /* matches goldenarchframe.png so the traced clip lines up exactly */
+  width: clamp(180px, 25vw, 250px);
+  aspect-ratio: 1086 / 1448;
 }
-.couple-photo-wrapper {
-  position: absolute;
-  inset: 15px; /* Leave room for wreath */
-  border-radius: 50%;
-  overflow: hidden;
-  border: 4px solid var(--gold);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-}
-.couple-photo {
+/* Photo and frame are drawn inside one SVG, so the drop-shadow follows the
+   gold silhouette rather than a rectangle. */
+.couple-niche svg {
+  display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  filter: drop-shadow(0 12px 24px rgba(107, 78, 34, 0.24));
 }
 .couple-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 36px;
+  margin: 22px 0 0;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(24px, 3vw, 31px);
   font-weight: 700;
+  letter-spacing: 4px;
+  text-indent: 4px;
+  text-transform: uppercase;
   color: var(--emerald-deep);
-  margin-bottom: 8px;
+}
+.couple-role {
+  margin: 6px 0 0;
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 4px;
+  text-indent: 4px;
+  text-transform: uppercase;
+  color: #7d5f2b;
+}
+.couple-sep {
+  width: 74px;
+  height: 1px;
+  margin: 16px 0;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
 }
 .couple-parents {
-  font-size: 12px;
-  color: #777;
-  letter-spacing: 2px;
-  line-height: 1.8;
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 1.6px;
+  line-height: 2;
   text-transform: uppercase;
+  /* 5.4:1 on the cream field */
+  color: #6d5730;
 }
-.couple-parents br {
-  margin-bottom: 4px;
+.couple-parents b {
+  display: block;
+  font-weight: 600;
+  color: #55421f;
 }
+
+/* --- Ampersand column --- */
 .couple-amp {
-  font-family: 'Great Vibes', cursive;
-  font-size: 60px;
-  color: var(--gold);
-  transform: translateY(-50px);
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  align-self: stretch;
+  padding-top: 34px;
 }
-.lotus-divider {
-  margin-top: 60px;
+.couple-amp .amp-line {
+  flex: 1;
+  width: 1px;
+  min-height: 26px;
+  background: linear-gradient(180deg, transparent, rgba(197, 160, 89, 0.85), transparent);
+}
+.couple-amp .amp-floret {
+  width: 13px;
+  height: 13px;
+  background: url('/assets/emerald-temple/floret.png') center/contain no-repeat;
+}
+.amp-badge {
+  position: relative;
+  width: 62px;
+  aspect-ratio: 5 / 6;
+  display: grid;
+  place-items: center;
+}
+/* Reuses the countdown card silhouette, so the two sections share a motif */
+.amp-badge svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.amp-badge .amp-shape { fill: none; stroke: var(--gold); stroke-width: 3; }
+.amp-badge span {
+  position: relative;
+  font-family: 'Great Vibes', cursive;
+  font-size: 34px;
+  line-height: 1;
+  color: var(--gold);
+}
+
+/* --- Closing line --- */
+.cp-tagline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  width: min(620px, 92%);
+  margin: 52px auto 0;
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--emerald);
+}
+.cp-tagline::before,
+.cp-tagline::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+}
+.cp-tagline::before { background: linear-gradient(90deg, transparent, var(--gold)); }
+.cp-tagline::after  { background: linear-gradient(90deg, var(--gold), transparent); }
+.cp-tagline i {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+/* --- Wave into the emerald gallery --- */
+.cp-wave {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 132px;
+  z-index: 4;
+  pointer-events: none;
+}
+.cp-wave svg { display: block; width: 100%; height: 100%; }
+/* Matches .emerald-journey, which now follows this section */
+.cp-wave-fill { fill: var(--emerald-deep); }
+.cp-wave-line {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 2.5;
+  vector-effect: non-scaling-stroke;
+}
+.cp-wave-line.thin {
+  stroke: rgba(197, 160, 89, 0.5);
+  stroke-width: 1;
+}
+.cp-wave-lotus {
+  position: absolute;
+  left: 50%;
+  bottom: 76px;
+  width: 56px;
+  height: 38px;
+  transform: translateX(-50%);
+  background: url('/assets/emerald-temple/lotus-icon.png') center/contain no-repeat;
+}
+
+@media (max-width: 720px) {
+  .emerald-couple { padding: 56px 16px 150px; }
+  .couple-grid { gap: 10px; }
+  /* Without min-width:0 a flex item will not shrink below its text, so the
+     name and parents lines held the columns wider than the screen. */
+  .couple-profile { flex: 1 1 0; min-width: 0; }
+  /* The 180px floor on the desktop clamp was the overflow: two niches plus
+     the ampersand column exceeded a phone before anything could shrink. */
+  .couple-niche { width: min(100%, 200px); }
+  .couple-amp { padding-top: 22px; }
+  .amp-badge { width: 46px; }
+  .amp-badge span { font-size: 25px; }
+  .couple-name { font-size: clamp(17px, 5vw, 26px); letter-spacing: 2px; text-indent: 2px; }
+  .couple-role { font-size: 10px; letter-spacing: 3px; text-indent: 3px; }
+  .couple-parents { font-size: 10.5px; letter-spacing: 1px; }
+  .couple-sep { width: 54px; margin: 12px 0; }
+}
+
+/* Below this a name and a parents line cannot sit side by side without
+   clipping, so the pair stacks and the divider column turns horizontal. */
+@media (max-width: 560px) {
+  .couple-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+  .couple-profile { flex: none; width: 100%; }
+  .couple-niche { width: min(70vw, 250px); }
+  .couple-name { font-size: 27px; letter-spacing: 4px; text-indent: 4px; }
+  .couple-role { font-size: 11px; }
+  .couple-parents { font-size: 12px; letter-spacing: 1.4px; }
+  .couple-amp {
+    flex-direction: row;
+    align-self: center;
+    width: min(78%, 300px);
+    padding-top: 0;
+  }
+  .couple-amp .amp-line {
+    flex: 1;
+    width: auto;
+    height: 1px;
+    min-height: 0;
+    background: linear-gradient(90deg, transparent, rgba(197, 160, 89, 0.85), transparent);
+  }
+  /* stack the closing line instead of squeezing two phrases and two rules */
+  .cp-tagline {
+    flex-direction: column;
+    gap: 10px;
+    letter-spacing: 2px;
+  }
+  .cp-tagline::before,
+  .cp-tagline::after { display: none; }
 }
 
 /* Gallery Section */
@@ -434,10 +1009,12 @@ h2, h3, h4 {
   transform: translateY(-50%);
   color: #fff;
   font-family: 'Great Vibes', cursive;
-  font-size: 24px;
+  font-size: 26px;
   text-align: center;
-  opacity: 0.8;
+  opacity: 0.9;
   line-height: 1.4;
+  z-index: 20;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8);
 }
 .gallery-floating p::after {
   content: '';
@@ -446,7 +1023,7 @@ h2, h3, h4 {
   height: 1px;
   background: var(--gold);
   margin: 20px auto 0;
-  opacity: 0.5;
+  opacity: 0.8;
 }
 .floating-lotus {
   width: 50px;
@@ -455,59 +1032,92 @@ h2, h3, h4 {
   opacity: 0.7;
 }
 .gallery-floating.left {
-  left: -80px;
+  left: -140px;
 }
 .gallery-floating.right {
-  right: -80px;
+  right: -140px;
 }
 @media (max-width: 1300px) {
   .gallery-floating { display: none; }
 }
-.gallery-content-split {
+.gallery-content-stacked {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 30px;
   margin: 0 auto;
   max-width: 1000px;
-}
-.gallery-left-main {
-  flex: 1;
-  max-width: 700px;
   position: relative;
+  z-index: 10;
 }
-.gallery-left-main .main-photo {
+.gallery-main-viewer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
   width: 100%;
-  height: 400px;
+  justify-content: center;
+}
+.gallery-main-media {
+  width: 100%;
+  max-width: 800px;
+  height: 450px;
+}
+.gallery-main-media .main-photo {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   display: block;
+  border-radius: 4px;
 }
-.frame-overlay {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  width: 100%; height: 100%;
-  pointer-events: none;
-  object-fit: fill;
-}
-.gallery-right-thumbs {
+.gallery-bottom-carousel-wrapper {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  justify-content: center;
+}
+.gallery-bottom-carousel {
+  display: flex;
   gap: 15px;
+  overflow-x: auto;
+  padding: 10px 0;
+  max-width: calc(100% - 120px);
+  justify-content: center;
 }
 .thumb-item {
   position: relative;
-  opacity: 0.8;
-  transition: opacity 0.3s;
+  opacity: 0.5;
+  transition: opacity 0.3s, transform 0.3s;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+.thumb-item.active,
 .thumb-item:hover {
   opacity: 1;
+  transform: scale(1.05);
 }
 .thumb-item .thumb-photo {
-  width: 150px;
-  height: 100px;
+  width: 120px;
+  height: 80px;
   object-fit: cover;
   display: block;
+  border-radius: 4px;
+}
+.play-icon {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  opacity: 0.9;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
+  transition: transform 0.3s;
+}
+.thumb-item:hover .play-icon {
+  transform: scale(1.1);
+}
+.cinematic-video {
+  background: #000;
 }
 .thumb-frame-overlay {
   position: absolute;
@@ -535,57 +1145,281 @@ h2, h3, h4 {
 }
 
 /* Events */
-.grand-events {
-  padding: 80px 20px;
+/* Wedding Journey Timeline */
+.emerald-journey {
+  position: relative;
+  /* theme tan, the same value the hero and countdown use */
+  background-color: #e9bc8a;
+  /* top clears the emerald cap, bottom clears the wave into the footer */
+  padding: 150px 20px 190px;
+  overflow: hidden;
+}
+
+/* Wave down from the dark gallery into this section's tan */
+.jn-cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 120px;
+  z-index: 4;
+  pointer-events: none;
+}
+.jn-cap svg { display: block; width: 100%; height: 100%; }
+.jn-cap-fill { fill: var(--emerald-deep); }
+.jn-cap-line {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+.jn-cap-line.thin {
+  stroke: rgba(197, 160, 89, 0.5);
+  stroke-width: 1;
+}
+
+.journey-bg-pattern {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  /* Multiply etches the gold line work into the tan. At plain opacity it was
+     gold-on-tan, two close values, so the kolam barely registered. */
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+  background: url('/assets/emerald-temple/imgi_120_kolam-tile.png') repeat;
+  background-size: 200px;
+}
+
+/* A repeating rail, not a single image. leftborder.PNG is 1024x1536, so
+   constrained to 40px wide by object-fit:contain it rendered ~60px tall and
+   left the rest of the section's edges bare. border-rail.png is a 228x300
+   tile designed to repeat, so it runs the full height however tall the
+   section grows. */
+.journey-side-border {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: clamp(26px, 3.2vw, 46px);
+  z-index: 1;
+  pointer-events: none;
+  background-image: url('/assets/emerald-temple/border-rail.png');
+  background-size: 100% auto;
+  /* `round` nudges tile height so a whole number fits: no clipped tile at the base */
+  background-repeat: round;
+}
+.journey-side-border.left {
+  left: 0;
+}
+.journey-side-border.right {
+  right: 0;
+  transform: scaleX(-1);
+}
+
+.journey-title {
+  font-family: 'Great Vibes', cursive;
+  /* was a hard 64px, which overflowed narrow screens */
+  font-size: clamp(36px, 7vw, 64px);
+  color: #0a3d29;
   text-align: center;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 2;
 }
-.grand-events h4 {
-  color: var(--gold);
-  letter-spacing: 3px;
+.journey-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  color: #3b3327;
+  text-align: center;
+  margin-bottom: 80px;
+  font-style: italic;
+  position: relative;
+  z-index: 2;
 }
-.grand-events h2 {
-  color: var(--emerald-deep);
-  font-size: 28px;
-  margin-bottom: 60px;
+
+/* .section-inner caps at 720px, which squeezed the whole timeline and left
+   the trail no room to meander. This section needs the extra width. */
+.emerald-journey .section-inner {
+  width: min(calc(100% - 48px), 1180px);
 }
-.grand-events-grid {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
+.journey-timeline {
+  position: relative;
   max-width: 1100px;
   margin: 0 auto;
+  padding: 20px 0;
 }
-.grand-event-card {
-  flex: 1;
-  background: var(--parchment);
-  border: 1px solid var(--gold-light);
-  border-radius: 120px 120px 0 0;
-  padding: 60px 30px 40px;
-  text-align: center;
+.journey-footprints-container {
+  position: absolute;
+  /* Starts above the timeline so the walk leads into the first function
+     instead of beginning on top of it. The print count is measured from this
+     element's height, so the lead-in adds prints rather than shifting them. */
+  top: -40px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  pointer-events: none;
 }
-.grand-event-card.highlight {
-  background: var(--emerald-deep);
-  color: var(--parchment);
+/* Wrapper carries the position on the curve so the print can animate freely */
+/* Wrapper carries the position on the curve so the print can animate freely */
+.journey-footstep {
+  position: absolute;
+  left: 50%;
+  width: 22px;
+  margin-left: -11px;
+  line-height: 0;
+}
+.journey-footprint {
+  display: block;
+  width: 22px;
+  height: auto;
+  opacity: 0;
+  /* translateY is along the foot's own heel-to-toe axis, because the wrapper
+     is already rotated. So the print swings in from behind the step and
+     plants, rather than just fading up. */
+  transform: translateY(-16px) scale(0.55);
+  transition:
+    opacity 0.42s ease,
+    transform 0.52s cubic-bezier(0.18, 0.85, 0.28, 1.06);
+}
+.journey-footprint.stepped {
+  opacity: 0.85;
+  transform: translateY(0) scale(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .journey-footprint { transition: none; }
+}
+
+.journey-node {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Default: text on right */
+  /* Long walk between functions: the trail needs room to read as a journey
+     rather than a list. Roughly doubles the old 80px gap. */
+  margin-bottom: clamp(180px, 22vw, 320px);
+  z-index: 1;
+}
+.journey-node.left {
+  justify-content: flex-start; /* Text on left */
+}
+.journey-node-icon {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.event-icon-circle {
+  position: relative;
+  width: 90px; height: 90px;
+  background: transparent;
+  border: 1px solid rgba(197, 160, 89, 0.4);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.event-popout-icon {
+  position: absolute;
+  width: 140px;
+  height: auto;
+  z-index: 2;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+}
+
+.audio-toggle-btn {
+  position: absolute;
+  bottom: 30px;
+  right: 40px;
+  width: 60px;
+  height: 60px;
+  background: #fdfbf7;
+  border: 1px solid rgba(197, 160, 89, 0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.3s;
+}
+.audio-toggle-btn:hover {
   transform: scale(1.05);
-  box-shadow: 0 20px 40px rgba(6, 48, 32, 0.2);
 }
-.grand-event-card h3 {
+.audio-toggle-btn img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.journey-node-content {
+  width: calc(50% - 60px);
+  text-align: left;
+}
+.journey-node.left .journey-node-content {
+  text-align: right;
+}
+
+.journey-node-content h3 {
+  font-family: 'Cinzel', serif;
+  color: #8c1c2e;
   font-size: 28px;
-  margin-bottom: 16px;
-  color: inherit;
+  margin-bottom: 8px;
 }
-.grand-event-card:not(.highlight) h3 {
-  color: var(--emerald-deep);
-}
-.event-date {
-  font-size: 14px;
-  letter-spacing: 1px;
-  line-height: 1.6;
-  margin-bottom: 16px;
-}
-.event-loc {
-  font-style: italic;
+.j-date {
   font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  color: #8c1c2e;
+  margin-bottom: 6px;
+}
+.j-loc {
+  font-size: 12px;
+  color: #4f4639;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+.j-map-btn {
+  background: transparent;
+  /* gold measured 1.4:1 on the tan; maroon matches the headings at 5.2:1 */
+  border: 1px solid #8c1c2e;
+  color: #8c1c2e;
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.j-map-btn svg {
+  width: 12px; height: 12px;
+}
+.j-map-btn:hover {
+  background: #8c1c2e;
+  color: #fff;
+}
+
+/* Narrow screens keep the alternating flow rather than collapsing to a list:
+   icon one side of the trail, text the other, exactly as on desktop. Only the
+   proportions change. Collapsing here left the trail nowhere to weave. */
+@media (max-width: 768px) {
+  .journey-path-svg { left: 50%; }
+  .journey-node-icon { width: 66px; }
+  /* Shift the icon off centre toward the trail. Left at 50% its 33px half-width
+     reached into the text column, which is why the haldi bowl landed on
+     "ITC MEMENTOS". Offsetting it frees the column without narrowing it. */
+  .journey-node .journey-node-icon { left: calc(50% - 30px); }
+  .journey-node.left .journey-node-icon { left: calc(50% + 30px); }
+  .journey-node-content,
+  .journey-node.left .journey-node-content {
+    width: calc(50% - 22px);
+  }
 }
 
 /* Travel */
@@ -641,16 +1475,265 @@ h2, h3, h4 {
 }
 
 /* Footer */
+/* ===================== Footer ===================== *
+ * Dark emerald close. godfooter.jpg was composited onto this exact colour,
+ * so the plate needs no frame or mask: its ground and the band are the same
+ * value and the artwork simply sits on the page.
+ * -------------------------------------------------- */
 .grand-footer {
-  background: var(--parchment-tint);
-  width: 100%;
   position: relative;
-  display: flex;
-  padding: 0; /* Remove padding so image touches edges */
-}
-.footer-bg {
-  width: 100%;
-  height: auto;
   display: block;
+  overflow: hidden;
+  width: 100%;
+  /* Bottom padding clears the pond's solid centre, which begins 70.4% down
+     that image. Below this value the sign-off would land on the steps. */
+  padding: 150px 20px clamp(180px, 17vw, 300px);
+  text-align: center;
+  /* Kolam watermark over the emerald, same treatment as the gallery, so the
+     ground has some life instead of reading as a flat block. */
+  background-color: var(--emerald-deep);
+  background-image: url('/assets/emerald-temple/kolam-tile.png');
+  background-repeat: repeat;
+  background-size: 720px;
+  background-blend-mode: overlay;
+}
+
+/* Lotus pond: pillars and elephants down both sides with an open centre.
+   Measured from the art: the sides start at 1.3% down but the centre stays
+   clear until 70.4%. So it is a FRAME, not a band, and belongs behind the
+   sign-off rather than stacked under it. Anchored to the base and slightly
+   wider than the viewport so the elephants crop at the edges. */
+.ft-pond {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: 1;
+  display: block;
+  width: min(112vw, 1980px);
+  height: auto;
+  transform: translateX(-50%);
+  pointer-events: none;
+  user-select: none;
+}
+
+.ft-subline {
+  margin: 10px auto 0;
+  max-width: 46ch;
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 2.6px;
+  line-height: 1.9;
+  text-transform: uppercase;
+  color: rgba(245, 242, 235, 0.78);
+}
+
+/* Wave carrying the white travel section down into the dark footer */
+.ft-cap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  z-index: 2;
+  pointer-events: none;
+}
+.ft-cap svg { display: block; width: 100%; height: 100%; }
+/* Follows the dark gallery now: emerald fill leaves only the gold curves */
+.ft-cap-fill { fill: var(--emerald-deep); }
+.ft-cap-line {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+.ft-cap-line.thin {
+  stroke: rgba(197, 160, 89, 0.5);
+  stroke-width: 1;
+}
+
+.ft-inner {
+  position: relative;
+  z-index: 3;
+  width: min(calc(100% - 32px), 860px);
+  margin: 0 auto;
+}
+.ft-eyebrow {
+  margin: 0 0 24px;
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 5px;
+  text-indent: 5px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.ft-plate {
+  display: block;
+  width: min(100%, 660px);
+  height: auto;
+  margin: 0 auto;
+}
+/* prefixed: outranks .section-inner>h2 from index.css */
+.emerald-temple .ft-script {
+  margin: 22px 0 0;
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(38px, 5.4vw, 58px);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--gold-light);
+}
+.ft-names {
+  margin: 0 0 10px;
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 5px;
+  text-indent: 5px;
+  text-transform: uppercase;
+  color: var(--parchment);
+}
+.ft-thanks {
+  margin: 0;
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  /* 6.6:1 on the emerald ground */
+  color: rgba(245, 242, 235, 0.72);
+}
+
+@media (max-width: 640px) {
+  /* Restored proper bottom padding on mobile so the text clears the tall pond pillars */
+  .grand-footer { padding: 110px 16px 200px; }
+  .ft-eyebrow { letter-spacing: 3px; text-indent: 3px; }
+  .ft-names { letter-spacing: 3px; text-indent: 3px; }
+  .ft-thanks { 
+    font-size: 10px; 
+    letter-spacing: 1.5px; 
+    line-height: 1.6;
+    max-width: 75vw;
+    margin: 0 auto;
+  }
+}
+
+/* Wave from the Journey's tan down into the dark gallery */
+.jn-wave {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 132px;
+  z-index: 4;
+  pointer-events: none;
+}
+.jn-wave svg { display: block; width: 100%; height: 100%; }
+.jn-wave-fill { fill: var(--emerald-deep); }
+.jn-wave-line {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 2.5;
+  vector-effect: non-scaling-stroke;
+}
+.jn-wave-line.thin {
+  stroke: rgba(197, 160, 89, 0.5);
+  stroke-width: 1;
+}
+
+.global-audio-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #fdfbf7;
+  border: 1px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  cursor: pointer;
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+.global-audio-btn:hover {
+  transform: scale(1.1);
+}
+.global-audio-btn img {
+  width: 24px;
+  height: 24px;
   object-fit: contain;
+}
+.global-audio-btn.playing {
+  animation: pulse-ring 2s infinite;
+}
+.mute-slash {
+  position: absolute;
+  width: 30px;
+  height: 2px;
+  background-color: #a63131;
+  transform: rotate(45deg);
+}
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0.4); }
+  70% { box-shadow: 0 0 0 12px rgba(197, 160, 89, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0); }
+}
+
+/* ============ Section entrance ============ *
+ * Same gesture as the hero's scroll drift, played on entry rather than exit.
+ * `.reveal-ready` is added by JS, so a script failure leaves content visible
+ * instead of permanently hidden.
+ * ------------------------------------------ */
+@media (prefers-reduced-motion: no-preference) {
+  /* Container form: children stagger, so one attribute marks a whole block */
+  .reveal-ready [data-reveal] > * {
+    opacity: 0;
+    transform: translateY(42px);
+    transition:
+      opacity 1.05s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 1.05s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-ready [data-reveal].is-in > * {
+    opacity: 1;
+    transform: none;
+  }
+  .reveal-ready [data-reveal].is-in > *:nth-child(2) { transition-delay: 110ms; }
+  .reveal-ready [data-reveal].is-in > *:nth-child(3) { transition-delay: 220ms; }
+  .reveal-ready [data-reveal].is-in > *:nth-child(4) { transition-delay: 330ms; }
+  .reveal-ready [data-reveal].is-in > *:nth-child(5) { transition-delay: 440ms; }
+  .reveal-ready [data-reveal].is-in > *:nth-child(n + 6) { transition-delay: 550ms; }
+
+  /* Self form: the element itself moves. For items spread down a long
+     timeline, where a shared container would fire them all at once. */
+  .reveal-ready [data-reveal-self] {
+    opacity: 0;
+    transform: translateY(48px);
+    transition:
+      opacity 1.05s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 1.05s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-ready [data-reveal-self].is-in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ============ Wedding Journey on small screens ============ *
+ * The alternating flow is kept; only type and spacing are scaled down.
+ * ---------------------------------------------------------- */
+@media (max-width: 768px) {
+  .emerald-journey { padding: 110px 14px 150px; }
+  .emerald-journey .section-inner { width: calc(100% - 28px); }
+  .journey-footstep { width: 17px; margin-left: -8.5px; }
+  .journey-footprint { width: 17px; }
+  .journey-node { margin-bottom: clamp(120px, 30vw, 210px); }
+  .journey-node-content h3 { font-size: 23px; }
+  /* smaller and balanced so "onwards" stops stranding on its own line */
+  .j-date { font-size: 15px; line-height: 1.5; text-wrap: pretty; }
+  .j-loc { font-size: 11px; }
+  .journey-subtitle { font-size: 18px; }
+  .journey-side-border { width: 18px; }
 }

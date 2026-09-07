@@ -53,6 +53,51 @@ const WhatsAppGlyph = () => (
   </svg>
 );
 
+/* Aahvanam Brand Emblem: An auspicious sacred arch & lotus crest rendered with gold gradients */
+const AahvanamEmblem = ({ size = 26 }: { size?: number }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 48 48"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="ms-logo-icon"
+    aria-hidden="true"
+  >
+    <defs>
+      <linearGradient id="aahvanamGold" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#f3d89d" />
+        <stop offset="50%" stopColor="#c5a059" />
+        <stop offset="100%" stopColor="#8c6820" />
+      </linearGradient>
+      <linearGradient id="aahvanamMaroon" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#9a1b41" />
+        <stop offset="100%" stopColor="#5c0f24" />
+      </linearGradient>
+    </defs>
+    <path
+      d="M24 4C24 4 10 16 10 27C10 36 16.5 42 24 42C31.5 42 38 36 38 27C38 16 24 4 24 4Z"
+      stroke="url(#aahvanamGold)"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+    />
+    <path
+      d="M24 16C24 16 16.5 23.5 16.5 30C16.5 35.2 20 38.8 24 38.8C28 38.8 31.5 35.2 31.5 30C31.5 23.5 24 16 24 16Z"
+      fill="url(#aahvanamMaroon)"
+    />
+    <path
+      d="M24 7C22.5 12 19.5 17 15.5 20C19 20 22.8 18 24 15C25.2 18 29 20 32.5 20C28.5 17 25.5 12 24 7Z"
+      fill="url(#aahvanamGold)"
+    />
+    <path
+      d="M24 23C23 26 21.5 28 24 32C26.5 28 25 26 24 23Z"
+      fill="url(#aahvanamGold)"
+    />
+  </svg>
+);
+
 const renderCell = (value: string) => {
   if (value === 'Yes') return <Yes />;
   if (value === 'No') return <No />;
@@ -82,7 +127,10 @@ export default function MainSite() {
 
       <header className="ms-nav">
         <div className="ms-wrap ms-nav-inner">
-          <a className="ms-logo" href="#top">{BRAND}<span>.</span></a>
+          <a className="ms-logo" href="#top" aria-label="Aahvanam Home">
+            <img src="/logo.jpg" alt="aahvanam logo" className="ms-logo-img" />
+            <span className="ms-logo-text">{BRAND}</span>
+          </a>
           <nav aria-label="Main">
             <ul className="ms-nav-links">
               <li><a href="#templates">Templates</a></li>
@@ -359,7 +407,7 @@ export default function MainSite() {
             </a>
           </div>
           <div className="ms-footer-base">
-            <p>© {new Date().getFullYear()} {BRAND}. Made for Indian weddings.</p>
+            <p>© {new Date().getFullYear()} {BRAND}. Made for weddings, birthdays & celebrations.</p>
             <p>{OFFER.price} one time · live in two days</p>
           </div>
         </div>

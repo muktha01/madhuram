@@ -206,8 +206,15 @@
   border: 1px solid var(--ms-line);
   border-radius: var(--ms-radius);
   overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
   transition: border-color 0.25s ease, box-shadow 0.25s ease,
     transform 0.25s ease;
+}
+.ms-card:focus-visible {
+  outline: 2px solid var(--ms-accent);
+  outline-offset: 3px;
 }
 .ms-card:hover {
   transform: translateY(-3px);
@@ -253,6 +260,7 @@
   font-family: 'Playfair Display', Georgia, serif;
   font-size: var(--ms-h3);
   font-weight: 500;
+  color: var(--ms-ink);
 }
 .ms-card p {
   margin: 0;
@@ -290,7 +298,7 @@
   height: 15px;
   transition: transform 0.22s ease;
 }
-.ms-card-link:hover svg { transform: translateX(3px); }
+.ms-card:hover .ms-card-link svg { transform: translateX(3px); }
 
 /* Steps ------------------------------------------------------------------- */
 .ms-steps {

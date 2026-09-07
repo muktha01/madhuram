@@ -63,6 +63,8 @@ export default function MainSite() {
   useSmoothScroll();
   useReveal();
 
+  const visibleTemplates = TEMPLATES.filter((t) => t.visible !== false);
+
   return (
     <div className="mainsite">
       {/* Announcement bar. Above the sticky nav in source order so it scrolls
@@ -107,7 +109,7 @@ export default function MainSite() {
               <a className="ms-btn primary" href="#templates">
                 See the templates <ArrowRight />
               </a>
-              <Link className="ms-btn ghost" href={`/invitation/${TEMPLATES[0].id}`}>
+              <Link className="ms-btn ghost" href={`/invitation/${visibleTemplates[0]?.id || TEMPLATES[0].id}`}>
                 Open a live example
               </Link>
             </div>
@@ -144,8 +146,8 @@ export default function MainSite() {
             </div>
 
             <div className="ms-grid" data-reveal>
-              {TEMPLATES.map((t) => (
-                <article className="ms-card" key={t.id}>
+              {visibleTemplates.map((t) => (
+                <Link className="ms-card" key={t.id} href={`/invitation/${t.id}`}>
                   <div className="ms-card-cover">
                     <img src={t.cover} alt={`${t.name} invitation template`} loading="lazy" />
                     <span className="ms-card-tag">{t.tradition}</span>
@@ -159,12 +161,12 @@ export default function MainSite() {
                     </div>
                     <p>{t.blurb}</p>
                     <div className="ms-card-foot">
-                      <Link className="ms-card-link" href={`/invitation/${t.id}`}>
+                      <span className="ms-card-link">
                         Open the full demo <ArrowRight />
-                      </Link>
+                      </span>
                     </div>
                   </div>
-                </article>
+                </Link>
               ))}
             </div>
           </div>

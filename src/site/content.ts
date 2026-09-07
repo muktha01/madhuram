@@ -6,7 +6,7 @@
    also claims read as noise. Everything here is concrete: a number, a named
    object, or a specific thing that happens. */
 
-export const BRAND = 'Shubh';
+export const BRAND = 'aahvanam';
 /* wa.me wants the full international number with no +, spaces or dashes.
    6363604062 is a 10-digit Indian mobile, so it carries the 91 country code. */
 export const WHATSAPP_NUMBER = '916363604062';

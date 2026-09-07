@@ -606,6 +606,11 @@ function EmeraldFooter() {
         <h2 className="ft-script">Shubham Bhavatu</h2>
         <p className="ft-names">Rashmika &amp; Vijay</p>
         <p className="ft-thanks">Thank you for being part of our story</p>
+        <div className="ft-credit" style={{ marginTop: '2rem', fontSize: '0.85rem', letterSpacing: '1px' }}>
+          <a href="https://www.aahvanam.in" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--gold)', textDecoration: 'none', opacity: 0.8 }}>
+            Design by www.aahvanam.in
+          </a>
+        </div>
       </div>
 
       {/* Pond band closes the section, in flow directly under the sign-off */}

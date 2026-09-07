@@ -2,14 +2,46 @@ import type { Metadata, Viewport } from 'next';
 import '../index.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://example.com'),
+  metadataBase: new URL('https://www.aahvanam.in'),
   title: {
-    default: 'Shubh · Digital wedding invitations',
-    template: '%s · Shubh',
+    default: 'Aahvanam · Premium Digital Invitations',
+    template: '%s · Aahvanam',
   },
   description:
-    'A complete invitation website for your wedding, designed around your own tradition. Every function, your photographs and a live countdown, on one link you send by WhatsApp.',
-  openGraph: { type: 'website', siteName: 'Shubh' },
+    'A complete digital invitation platform for all your auspicious occasions. From weddings to birthdays, create elegant and traditional invites with live countdowns, photos, and event details on one beautiful link.',
+  keywords: [
+    'aahvanam',
+    'premium digital invitations',
+    'luxury wedding websites',
+    'indian wedding ecards',
+    'telugu wedding invitations',
+    'traditional digital invites',
+    'south indian wedding cards',
+    'shubhakaryam invitations',
+    'online event invitations',
+    'custom wedding websites',
+    'save the date ecards',
+    'digital rsvp tracking',
+    'wedding countdown website',
+    'aahvanam digital invites',
+    'bespoke event websites',
+    'paperless indian invitations',
+    'housewarming digital cards',
+    'cradle ceremony invites',
+    'elegant ecards',
+  ],
+  openGraph: {
+    title: 'Aahvanam · Premium Digital Invitations',
+    description: 'A complete digital invitation platform for all your auspicious occasions. Create elegant and traditional invites on one beautiful link.',
+    url: 'https://www.aahvanam.in',
+    siteName: 'Aahvanam',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Aahvanam · Premium Digital Invitations',
+    description: 'A complete digital invitation platform for all your auspicious occasions.',
+  },
 };
 
 /* themeColor belongs in viewport, not metadata, since Next 14 */
